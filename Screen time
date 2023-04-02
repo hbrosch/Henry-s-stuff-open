@@ -1,0 +1,164 @@
+from datetime import datetime
+
+file = open('./log.txt', 'r')
+
+log = file.read()
+
+lines = log.split('\n')
+
+events = []
+
+def parse_line(line):
+    
+    if line.split(' - ') == ValueError:
+        return
+    
+    parts = line.split(' - ')
+    '''
+    n = 1
+
+    for part in parts:
+        
+        x = ((n + 3) // 4)
+        y = (n // 4)
+
+        if isinstance(n * 0.25, int) == True:
+            events.append(part)
+        elif isinstance(4 * 0.25, int) == True:
+            events.append(part)
+        
+        n = n + 1
+
+'''
+    for part in parts:
+
+        if '0' in str(part):
+            events.append(part)
+        elif '1' in str(part):
+            events.append(part)
+        elif '2' in str(part):
+            events.append(part)
+        elif '3' in str(part):
+            events.append(part)
+        elif '4' in str(part):
+            events.append(part)
+        elif '5' in str(part):
+            events.append(part)
+        elif '6' in str(part):
+            events.append(part)
+        elif '7' in str(part):
+            events.append(part)
+        elif '8' in str(part):
+            events.append(part)
+        elif '9' in str(part):
+            events.append(part)
+
+
+for line in lines:
+    parse_line(line)
+
+#print(events)
+
+num_get_app_name = 0
+
+app_list = []
+
+def get_app_name(term, num_get_app_name):
+
+    if term.split(' ') == ValueError:
+        return
+    
+
+    if (num_get_app_name % 2) == 0:
+        return
+    else:
+        x = 1
+
+
+    app = term.split(' ')
+
+    if str(app[0]) in app_list:
+        return
+    
+    else:
+        app_list.append(str(app[0]))
+
+
+for term in events:
+
+    get_app_name(term, num_get_app_name)
+
+    num_get_app_name = num_get_app_name + 1
+
+
+def get_time_for_app(app):
+
+    total_time = 0
+
+    date_time_on = []
+
+    date_time_off = []
+
+    time_on = []
+
+    time_off = []
+
+    time_of_day_matrix = []
+
+    num_time = 0
+
+
+    for term in events:
+        
+        if str(app + ' launched') in term :
+
+            date_time_on.append(events[num_time - 1])
+
+        if str(app + ' resumed') in term:
+
+            date_time_on.append(events[num_time - 1])
+
+        if str(app + ' closed') in term:
+
+            date_time_off.append(events[num_time - 1])
+
+        if str(app + ' backgrounded') in term:
+
+            date_time_off.append(events[num_time - 1])
+
+        num_time = num_time + 1
+
+
+    for term in date_time_on:
+
+        parts = term.split(' ')
+
+        time_of_day_matrix = parts[1].split(':')
+        
+        time_of_day = (float(time_of_day_matrix[0]) * 3600 + float(time_of_day_matrix[1]) * 60 + float(time_of_day_matrix[2]))
+        
+        time_on.append(time_of_day)
+
+
+    for term in date_time_off:
+
+        parts = term.split(' ')
+
+        time_of_day_matrix = parts[1].split(':')
+        
+        time_of_day = (float(time_of_day_matrix[0]) * 3600 + float(time_of_day_matrix[1]) * 60 + float(time_of_day_matrix[2]))
+        
+        time_off.append(time_of_day)
+
+    n = 0
+
+    for number in time_on:
+
+        total_time = int(total_time) + (int(time_off[n]) - int(number))
+
+        n = n + 1
+
+    print(str(app) + ': ' + str(total_time))
+
+for app in app_list:
+    get_time_for_app(app)
